@@ -6,7 +6,8 @@ using namespace std;
 
 int findMinSumPosition(int arr[], int size, int length, int pos = 0, int minPos = 0, int minSum = INT_MAX, int currentSum = 0)
 {
-    if (pos + length > size) return minPos;
+    if (pos + length > size)
+        return minPos;
 
     if (currentSum == 0)
     {
@@ -29,6 +30,7 @@ int main()
 {
     const int size = 100, length = 10;
     int arr[size];
+
     srand(time(NULL));
 
     for (int i = 0; i < size; i++)
@@ -37,6 +39,7 @@ int main()
     }
 
     int pos = findMinSumPosition(arr, size, length);
+
     cout << "Position of minimum sum sequence: " << pos << endl;
 
     return 0;
