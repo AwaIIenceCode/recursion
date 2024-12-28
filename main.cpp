@@ -2,25 +2,23 @@
 
 using namespace std;
 
-void printStars(int n)
+int rangeSum(int a, int b)
 {
-    if (n > 0)
-    {
-        cout << "*";
-        printStars(n - 1);
-    }
+    if (a > b) return 0;
+    return a + rangeSum(a + 1, b);
 }
 
 int main()
 {
-    int n;
+    int a, b;
 
-    cout << "Enter the number of stars: ";
-    cin >> n;
+    cout << "Enter the start of the range: ";
+    cin >> a;
 
-    printStars(n);
+    cout << "Enter the end of the range: ";
+    cin >> b;
 
-    cout << endl;
+    cout << "Sum of numbers: " << rangeSum(a, b) << endl;
 
     return 0;
 }
