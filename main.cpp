@@ -1,24 +1,43 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
-int rangeSum(int a, int b)
+int findMinSumPosition(int arr[], int size, int length, int pos = 0, int minPos = 0, int minSum = INT_MAX, int currentSum = 0)
 {
-    if (a > b) return 0;
-    return a + rangeSum(a + 1, b);
+    if (pos + length > size) return minPos;
+
+    if (currentSum == 0)
+    {
+        for (int i = pos; i < pos + length; i++)
+        {
+            currentSum += arr[i];
+        }
+    }
+
+    if (currentSum < minSum)
+    {
+        minSum = currentSum;
+        minPos = pos;
+    }
+
+    return findMinSumPosition(arr, size, length, pos + 1, minPos, minSum, currentSum - arr[pos] + (pos + length < size ? arr[pos + length] : 0));
 }
 
 int main()
 {
-    int a, b;
+    const int size = 100, length = 10;
+    int arr[size];
+    srand(time(NULL));
 
-    cout << "Enter the start of the range: ";
-    cin >> a;
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = rand() % 100 - 50;
+    }
 
-    cout << "Enter the end of the range: ";
-    cin >> b;
-
-    cout << "Sum of numbers: " << rangeSum(a, b) << endl;
+    int pos = findMinSumPosition(arr, size, length);
+    cout << "Position of minimum sum sequence: " << pos << endl;
 
     return 0;
 }
