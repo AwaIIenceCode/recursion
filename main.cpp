@@ -1,76 +1,79 @@
 #include <iostream>
+#include <algorithm>
+#include <ctime>
 
 using namespace std;
 
-int findMax(int arr[], int size)
+template <typename T>
+void initializeMatrix(T** matrix, int size)
 {
-    int maxVal = arr[0];
-    for (int i = 1; i < size; i++)
+    srand(time(NULL));
+    for (int i = 0; i < size; i++)
     {
-        if (arr[i] > maxVal) maxVal = arr[i];
-    }
-    return maxVal;
-}
-
-int findMax(int arr[][3], int rows, int cols)
-{
-    int maxVal = arr[0][0];
-    for (int i = 0; i < rows; i++)
-    {
-        for (int j = 0; j < cols; j++)
+        for (int j = 0; j < size; j++)
         {
-            if (arr[i][j] > maxVal) maxVal = arr[i][j];
+            matrix[i][j] = static_cast<T>(rand() % 10);
         }
     }
-    return maxVal;
 }
 
-int findMax(int arr[][3][3], int depth, int rows, int cols)
+template <typename T>
+void printMatrix(T** matrix, int size)
 {
-    int maxVal = arr[0][0][0];
-    for (int i = 0; i < depth; i++)
+    for (int i = 0; i < size; i++)
     {
-        for (int j = 0; j < rows; j++)
+        for (int j = 0; j < size; j++)
         {
-            for (int k = 0; k < cols; k++)
-            {
-                if (arr[i][j][k] > maxVal) maxVal = arr[i][j][k];
-            }
+            cout << matrix[i][j] << " ";
         }
+        cout << endl;
     }
-    return maxVal;
 }
 
-int findMax(int a, int b)
+template <typename T>
+void findMinMaxDiagonal(T** matrix, int size, T& min, T& max)
 {
-    return (a > b) ? a : b;
+    min = matrix[0][0];
+    max = matrix[0][0];
+    for (int i = 0; i < size; i++)
+    {
+        if (matrix[i][i] < min) min = matrix[i][i];
+        if (matrix[i][i] > max) max = matrix[i][i];
+    }
 }
 
-int findMax(int a, int b, int c)
+template <typename T>
+void sortRows(T** matrix, int size)
 {
-    return findMax(a, findMax(b, c));
+    for (int i = 0; i < size; i++)
+    {
+        sort(matrix[i], matrix[i] + size);
+    }
 }
 
 int main()
 {
-    int arr1[] =
-            {1, 2, 3, 4, 5};
-    cout << "Max in 1D array: " << findMax(arr1, 5) << endl;
+    int size;
+    cout << "Enter the size of the matrix: ";
+    cin >> size;
 
-    int arr2[3][3] =
-            {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-    cout << "Max in 2D array: " << findMax(arr2, 3, 3) << endl;
+    int** intMatrix = new int*[size];
+    for (int i = 0; i < size; i++) intMatrix[i] = new int[size];
 
-    int arr3[2][3][3] =
-            {
-            {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}},
-            {{-1, -2, -3}, {-4, -5, -6}, {-7, -8, -9}}
-    };
+    initializeMatrix(intMatrix, size);
+    cout << "Integer Matrix:\n";
+    printMatrix(intMatrix, size);
 
-    cout << "Max in 3D array: " << findMax(arr3, 2, 3, 3) << endl;
+    int intMin, intMax;
+    findMinMaxDiagonal(intMatrix, size, intMin, intMax);
+    cout << "Integer Matrix Diagonal Min: " << intMin << ", Max: " << intMax << endl;
 
-    cout << "Max of two numbers: " << findMax(10, 20) << endl;
-    cout << "Max of three numbers: " << findMax(10, 20, 30) << endl;
+    sortRows(intMatrix, size);
+    cout << "Sorted Integer Matrix:\n";
+    printMatrix(intMatrix, size);
+
+    for (int i = 0; i < size; i++) delete[] intMatrix[i];
+    delete[] intMatrix;
 
     return 0;
 }
