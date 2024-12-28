@@ -1,46 +1,76 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
 
 using namespace std;
 
-int findMinSumPosition(int arr[], int size, int length, int pos = 0, int minPos = 0, int minSum = INT_MAX, int currentSum = 0)
+int findMax(int arr[], int size)
 {
-    if (pos + length > size)
-        return minPos;
-
-    if (currentSum == 0)
+    int maxVal = arr[0];
+    for (int i = 1; i < size; i++)
     {
-        for (int i = pos; i < pos + length; i++)
+        if (arr[i] > maxVal) maxVal = arr[i];
+    }
+    return maxVal;
+}
+
+int findMax(int arr[][3], int rows, int cols)
+{
+    int maxVal = arr[0][0];
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
         {
-            currentSum += arr[i];
+            if (arr[i][j] > maxVal) maxVal = arr[i][j];
         }
     }
+    return maxVal;
+}
 
-    if (currentSum < minSum)
+int findMax(int arr[][3][3], int depth, int rows, int cols)
+{
+    int maxVal = arr[0][0][0];
+    for (int i = 0; i < depth; i++)
     {
-        minSum = currentSum;
-        minPos = pos;
+        for (int j = 0; j < rows; j++)
+        {
+            for (int k = 0; k < cols; k++)
+            {
+                if (arr[i][j][k] > maxVal) maxVal = arr[i][j][k];
+            }
+        }
     }
+    return maxVal;
+}
 
-    return findMinSumPosition(arr, size, length, pos + 1, minPos, minSum, currentSum - arr[pos] + (pos + length < size ? arr[pos + length] : 0));
+int findMax(int a, int b)
+{
+    return (a > b) ? a : b;
+}
+
+int findMax(int a, int b, int c)
+{
+    return findMax(a, findMax(b, c));
 }
 
 int main()
 {
-    const int size = 100, length = 10;
-    int arr[size];
+    int arr1[] =
+            {1, 2, 3, 4, 5};
+    cout << "Max in 1D array: " << findMax(arr1, 5) << endl;
 
-    srand(time(NULL));
+    int arr2[3][3] =
+            {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    cout << "Max in 2D array: " << findMax(arr2, 3, 3) << endl;
 
-    for (int i = 0; i < size; i++)
-    {
-        arr[i] = rand() % 100 - 50;
-    }
+    int arr3[2][3][3] =
+            {
+            {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}},
+            {{-1, -2, -3}, {-4, -5, -6}, {-7, -8, -9}}
+    };
 
-    int pos = findMinSumPosition(arr, size, length);
+    cout << "Max in 3D array: " << findMax(arr3, 2, 3, 3) << endl;
 
-    cout << "Position of minimum sum sequence: " << pos << endl;
+    cout << "Max of two numbers: " << findMax(10, 20) << endl;
+    cout << "Max of three numbers: " << findMax(10, 20, 30) << endl;
 
     return 0;
 }
