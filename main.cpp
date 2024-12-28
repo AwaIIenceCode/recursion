@@ -2,25 +2,25 @@
 
 using namespace std;
 
-int power(int base, int exponent)
+void printStars(int n)
 {
-    if (exponent == 0)
-        return 1;
-
-    return base * power(base, exponent - 1);
+    if (n > 0)
+    {
+        cout << "*";
+        printStars(n - 1);
+    }
 }
 
 int main()
 {
-    int base, exponent;
+    int n;
 
-    cout << "Enter the base: ";
-    cin >> base;
+    cout << "Enter the number of stars: ";
+    cin >> n;
 
-    cout << "Enter the exponent: ";
-    cin >> exponent;
+    printStars(n);
 
-    cout << "Result: " << power(base, exponent) << endl;
+    cout << endl;
 
     return 0;
 }
